@@ -47,10 +47,13 @@ class SecretSanta:
 
         # Log in to the SMTP server with the app password
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login(self.participants[sender], "gkps nfpn htaw epzs")
+            server.login(self.participants[sender], "hycp uoly ctjp qdkp")
             
             # Send the email
             server.sendmail(self.participants[sender], self.participants[receiver], message.as_string())
+        
+        print(f"Sending email from: {self.participants[sender]} to: {self.participants[receiver]}")
+    
 
 if __name__ == "__main__":
     santa = SecretSanta()
