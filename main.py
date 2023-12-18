@@ -2,6 +2,8 @@
 import random
 import smtplib
 import ssl
+import os
+from mailjet_rest import Client
 import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -13,10 +15,10 @@ class SecretSanta:
     def get_info(self):
         # Hardcoded testing participants
         testing_participants = {
-            "Svetlana1": "svetlana1@example.com",
-            "Svetlana2": "svetlana2@example.com",
-            "Svetlana3": "svetlana3@example.com",
-            "Joao": "joao@example.com",
+            "Svetlana1": "cjbutter@gmail.com",
+            "Svetlana2": "svetlanalysikova271@gmail.com",
+            "Svetlana3": "arrowphoto11611253svetlana@gmail.com",
+            "Joao": "jopaamcx@hotmail.com",
     }
 
     # Use hardcoded participants for testing
@@ -34,31 +36,37 @@ class SecretSanta:
             time.sleep(delay_seconds)
 
     def send_email(self, sender, receiver):
-        # Set up the MIME
-        message = MIMEMultipart()
-        message["From"] = "cjbutter@gmail.com"
-        message["To"] = self.participants[receiver]
-        message["Subject"] = "Secret Santa Assignment"
+         
+        api_key = os.environ['MJ_APIKEY_PUBLIC']
+        api_secret = os.environ['MJ_APIKEY_PRIVATE']
+        mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
-        # Attach the body to the email
-        body = f"You are the Secret Santa for {receiver}"
-        message.attach(MIMEText(body, "plain"))
+        email_data = {
+            'Messages': [
+                {
+                    "From": {
+                        "Email": "cjbutter@gmail.com",
+                        "Name": "Pai Natal"
+                    },
+                    "To": [
+                        {
+                            "Email": self.participants[receiver],
+                            "Name": receiver
+                        }
+                    ],
+                    "Subject": "Secret Santa Assignment",
+                    "TextPart": f"You are the Secret Santa for {receiver}",
+                    "HTMLPart": f"<p>You are the Secret Santa for {receiver}</p>"
+                }
+            ]
+        }
 
-        # Set up the SMTP server
-        smtp_server = "smtp.gmail.com"
-        port = 465
+        result = mailjet.send.create(data=email_data)
 
-        # Create a secure SSL context
-        context = ssl.create_default_context()
-
-        # Log in to the SMTP server with the app password
-        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login(self.participants[sender], "dqxe tadf shuk vuoh")
-
-            print(f"Sending email from: {self.participants[sender]} to: {self.participants[receiver]}")
-            # Send the email
-            server.sendmail(self.participants[sender], self.participants[receiver], message.as_string())
-        
+        if result.status_code == 200:
+            print(f"Email sent successfully to {receiver}")
+        else:
+            print(f"Failed to send email to {receiver}. Status code: {result.status_code}")
         
     
 
