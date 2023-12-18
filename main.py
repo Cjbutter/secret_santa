@@ -2,6 +2,7 @@
 import random
 import smtplib
 import ssl
+import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -10,14 +11,18 @@ class SecretSanta:
         self.participants = {}
 
     def get_info(self):
-        while True:
-            name = input("Enter participant's name (or type 'done' to finish): ")
-            if name.lower() == 'done':
-                break
-            email = input(f"Enter {name}'s email address: ")
-            self.participants[name] = email
+        # Hardcoded testing participants
+        testing_participants = {
+            "Svetlana1": "svetlana1@example.com",
+            "Svetlana2": "svetlana2@example.com",
+            "Svetlana3": "svetlana3@example.com",
+            "Joao": "joao@example.com",
+    }
 
-    def assign(self):
+    # Use hardcoded participants for testing
+        self.participants = testing_participants
+
+    def assign(self, delay_seconds=10):
         names = list(self.participants.keys())
         random.shuffle(names)
 
@@ -26,6 +31,7 @@ class SecretSanta:
         for giver, receiver in pairs:
             print(f"{giver} is the Secret Santa for {receiver}")
             self.send_email(giver, receiver)
+            time.sleep(delay_seconds)
 
     def send_email(self, sender, receiver):
         # Set up the MIME
@@ -47,12 +53,13 @@ class SecretSanta:
 
         # Log in to the SMTP server with the app password
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login(self.participants[sender], "hycp uoly ctjp qdkp")
-            
+            server.login(self.participants[sender], "dqxe tadf shuk vuoh")
+
+            print(f"Sending email from: {self.participants[sender]} to: {self.participants[receiver]}")
             # Send the email
             server.sendmail(self.participants[sender], self.participants[receiver], message.as_string())
         
-        print(f"Sending email from: {self.participants[sender]} to: {self.participants[receiver]}")
+        
     
 
 if __name__ == "__main__":
