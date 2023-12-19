@@ -7,6 +7,10 @@ import time
 class SecretSanta:
     def __init__(self):
         self.participants = {}
+        # Load the HTML content from the file
+        with open('/home/cjbutter/santa_project/email_template.html', 'r') as file:
+            self.html_template = file.read()
+        
 
     def get_info(self):
         # Hardcoded testing participants
@@ -29,27 +33,11 @@ class SecretSanta:
             print(f"{giver} is the Secret Santa for {receiver}")
             self.send_email(giver, receiver)
             time.sleep(delay_seconds)
-            
-    def get_receiver(self, giver):
-        # Returns the assigned receiver for the current partcipant
-        return self.participants[giver]
 
-    def send_email(self, sender, receiver):
-         
-        api_key = os.environ['MJ_APIKEY_PUBLIC']
-        api_secret = os.environ['MJ_APIKEY_PRIVATE']
-        mailjet = Client(auth=(api_key, api_secret), version='v3.1')
-
-        # Get the assigned receiver
-        assigned_receiver = self.get_receiver(sender)
-        
-        # Load the HTML content from the file
-        with open('/home/cjbutter/santa_project/email_template.html', 'r') as file:
-            html_content = file.read()
-         
-        # Replace {receiver} placeholder with the actual name    
-        html_content = html_content.replace("{receiver}", assigned_receiver)
-        
+    def send_email(self, giver, receiver):
+        giver_email = self.participants[giver]
+        # Replace {receiver} placeholder with the actual name in the HTML content
+        html_content = self.html_template.replace("{receiver}", receiver)
         email_data = {
             'Messages': [
                 {
@@ -59,17 +47,22 @@ class SecretSanta:
                     },
                     "To": [
                         {
-                            "Email": self.participants[receiver],
-                            "Name": receiver
+                            "Email": giver_email,
+                            "Name": giver
                         }
                     ],
                     "Subject": "Message from Pai Natal",
-                    "TextPart": f"You are the Secret Santa for {assigned_receiver}",
+                    "TextPart": f"You are the Secret Santa for {receiver}",
                     "HTMLPart": html_content
                 }
             ]
         }
-
+       
+        api_key = os.environ['MJ_APIKEY_PUBLIC']
+        api_secret = os.environ['MJ_APIKEY_PRIVATE']
+        mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+        
+        
         result = mailjet.send.create(data=email_data)
 
         if result.status_code == 200:
