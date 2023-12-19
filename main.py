@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 import random
-import smtplib
-import ssl
 import os
 from mailjet_rest import Client
 import time
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 class SecretSanta:
     def __init__(self):
@@ -63,7 +59,7 @@ class SecretSanta:
                     ],
                     "Subject": "Secret Santa Assignment",
                     "TextPart": f"You are the Secret Santa for {receiver}",
-                    "HTMLPart": f"<p>You are the Secret Santa for {receiver}</p>"
+                    "HTMLPart": html_content
                 }
             ]
         }
