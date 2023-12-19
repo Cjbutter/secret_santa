@@ -47,7 +47,6 @@ class SecretSanta:
         pairs = list(zip(names, names[1:] + [names[0]]))
          
         for giver, receiver in pairs:
-            print(f"Sending email to {giver} who is the Secret Santa for {receiver}")
             self.send_email(giver, receiver)
             time.sleep(delay_seconds)
 
@@ -98,9 +97,9 @@ class SecretSanta:
         result = mailjet.send.create(data=email_data)
 
         if result.status_code == 200:
-            print(f"Email sent successfully to {receiver}")
+            print(f"Email successfully sent to {giver}")
         else:
-            print(f"Failed to send email to {receiver}. Status code: {result.status_code}")
+            print(f"Failed to send email to {giver}. Status code: {result.status_code}")
 
 
 def get_participants():
