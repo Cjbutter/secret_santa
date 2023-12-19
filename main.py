@@ -66,7 +66,7 @@ class SecretSanta:
                         }
                     ],
                     "Subject": "Message from Pai Natal",
-                    "TextPart": f"You are the Secret Santa for {receiver}",
+                    "TextPart": f"You are the Secret Santa for {assigned_receiver}",
                     "HTMLPart": html_content
                 }
             ]
