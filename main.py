@@ -30,7 +30,7 @@ class SecretSanta:
         pairs = list(zip(names, names[1:] + [names[0]]))
          
         for giver, receiver in pairs:
-            print(f"{giver} is the Secret Santa for {receiver}")
+            print(f"Sending email to {giver} who is the Secret Santa for {receiver}")
             self.send_email(giver, receiver)
             time.sleep(delay_seconds)
 
