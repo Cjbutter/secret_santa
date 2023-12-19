@@ -41,6 +41,13 @@ class SecretSanta:
         api_secret = os.environ['MJ_APIKEY_PRIVATE']
         mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
+        # Load the HTML content from the file
+        with open('/home/cjbutter/santa_project/email_template.html', 'r') as file:
+            html_content = file.read()
+         
+        # Replace {receiver} placeholder with the actual name    
+        html_content = html_content.replace("{receiver}", receiver)
+        
         email_data = {
             'Messages': [
                 {
