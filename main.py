@@ -59,7 +59,7 @@ class SecretSanta:
                     },
                     "To": [
                         {
-                            "Email": self.participants[sender],
+                            "Email": self.participants[receiver],
                             "Name": receiver
                         }
                     ],
