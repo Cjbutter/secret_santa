@@ -48,7 +48,7 @@ class SecretSanta:
             html_content = file.read()
          
         # Replace {receiver} placeholder with the actual name    
-        html_content = html_content.replace("{assigned_receiver}", assigned_receiver)
+        html_content = html_content.replace("{receiver}", assigned_receiver)
         
         email_data = {
             'Messages': [
