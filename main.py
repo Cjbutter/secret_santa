@@ -22,8 +22,8 @@ class SecretSanta:
     send_email(giver, receiver):
         Sends an email to the giver with details about their Secret Santa receiver.
     """
-    def __init__(self):
-        self.participants = {}
+    def __init__(self, participants):
+        self.participants = participants
         # Load the HTML content from the file
         with open('/home/cjbutter/santa_project/email_template.html', 'r') as file:
             self.html_template = file.read()
