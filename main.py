@@ -24,8 +24,6 @@ class SecretSanta:
         names = list(self.participants.keys())
         random.shuffle(names)
         pairs = list(zip(names, names[1:] + [names[0]]))
-        
-        self.participants = dict(pairs)
          
         for giver, receiver in pairs:
             print(f"{giver} is the Secret Santa for {receiver}")
