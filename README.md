@@ -18,12 +18,14 @@ Requires Python 3.x. Dependencies can be installed via pip:
 
 ```bash
 pip install mailjet_rest
+```
 
 #### Usage
 
 To run the script:
 ```bash
 python3 main.py
+```
 
 Follow the on-screen prompts to enter participant details. The script will then automatically handle the pairing and send emails.
 
@@ -32,6 +34,7 @@ Set up your Mailjet API keys as environment variables for security:
 ```bash
 export MJ_APIKEY_PUBLIC='your_public_api_key'
 export MJ_APIKEY_PRIVATE='your_private_api_key'
+```
 
 #### How it works
 
